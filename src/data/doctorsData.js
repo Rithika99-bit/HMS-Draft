@@ -1,0 +1,102 @@
+/**
+ * MediCare Hospital Management System - Doctors Registry
+ */
+
+export const doctorsData = [
+  {
+    id: 'dr-sarah',
+    name: 'Dr. Sarah Mitchell, MD',
+    role: 'Chief of Cardiology',
+    specialty: 'Cardiology & Vascular Medicine',
+    dept: 'Cardiology',
+    deptId: 'cardiology',
+    experience: '16+ Years Experience',
+    rating: 4.9,
+    reviews: 148,
+    status: 'Available Today',
+    availableDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=600',
+    education: 'Harvard Medical School • Johns Hopkins Fellowship in Interventional Cardiology',
+    bio: 'Dr. Sarah Mitchell is a board-certified cardiologist with over 16 years of leadership in cardiac therapeutics, preventive cardiology, coronary angioplasty, and cutting-edge non-invasive diagnostics. She has completed more than 1,500 successful surgical procedures.',
+    hours: 'Mon - Fri: 08:30 AM - 04:30 PM',
+    fee: '$120 (Standard Consult)',
+    feeNumeric: 120,
+    languages: ['English', 'Spanish'],
+    awards: ['Top Cardiologist 2025 - Metro Health', 'Excellence in Clinical Research Award']
+  },
+  {
+    id: 'dr-david',
+    name: 'Dr. David Rodriguez, MD, PhD',
+    role: 'Lead Neurosurgeon',
+    specialty: 'Neurology & Neurosciences',
+    dept: 'Neurology',
+    deptId: 'neurology',
+    experience: '14+ Years Experience',
+    rating: 4.95,
+    reviews: 112,
+    status: 'Available Today',
+    availableDays: ['Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=600',
+    education: 'Stanford University School of Medicine • Mass General Neuroscience Residency',
+    bio: 'Dr. David Rodriguez leads the MediCare Comprehensive Stroke and Neuro-Rehabilitation Center. Specializing in minimally invasive neurovascular surgery, epilepsy management, migraine disorders, and cognitive neurological recovery.',
+    hours: 'Tue - Sat: 09:00 AM - 05:00 PM',
+    fee: '$135 (Specialist Consult)',
+    feeNumeric: 135,
+    languages: ['English', 'Portuguese'],
+    awards: ['American Board of Neurology Honors', 'Pioneer in Brain Health Fellowship']
+  },
+  {
+    id: 'dr-priya',
+    name: 'Dr. Priya Patel, MD',
+    role: 'Head of Pediatric Care',
+    specialty: 'Pediatrics & Child Health',
+    dept: 'Pediatrics',
+    deptId: 'pediatrics',
+    experience: '12+ Years Experience',
+    rating: 4.9,
+    reviews: 210,
+    status: 'Available Today',
+    availableDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    image: 'https://images.unsplash.com/photo-1594824813597-28d842b08365?auto=format&fit=crop&q=80&w=600',
+    education: 'Columbia University Vagelos College of Physicians and Surgeons',
+    bio: 'Dr. Priya Patel is a compassionate pediatrician dedicated to developmental monitoring, newborn intensive care (NICU), childhood asthma, and pediatric immunization in a comforting, child-friendly environment.',
+    hours: 'Mon - Fri: 08:00 AM - 03:30 PM',
+    fee: '$95 (Pediatric Visit)',
+    feeNumeric: 95,
+    languages: ['English', 'Hindi', 'Gujarati'],
+    awards: ['Family First Pediatrician Award', 'Golden Stethoscope 2024']
+  },
+  {
+    id: 'dr-marcus',
+    name: 'Dr. Marcus Vance, MD, FAAOS',
+    role: 'Director of Orthopedic Surgery',
+    specialty: 'Orthopedic Surgery & Joint Health',
+    dept: 'Orthopedics',
+    deptId: 'orthopedics',
+    experience: '18+ Years Experience',
+    rating: 4.88,
+    reviews: 175,
+    status: 'Available Tomorrow',
+    availableDays: ['Mon', 'Wed', 'Fri', 'Sat'],
+    image: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=600',
+    education: 'Mayo Clinic College of Medicine and Science • Hospital for Special Surgery Fellowship',
+    bio: 'Dr. Marcus Vance is an orthopedic surgeon specializing in robotic-assisted joint replacement, sports injury rehabilitation, arthroscopic knee/shoulder surgery, and complex bone trauma reconstruction.',
+    hours: 'Mon, Wed, Fri: 09:00 AM - 04:00 PM',
+    fee: '$140 (Surgical Consult)',
+    feeNumeric: 140,
+    languages: ['English'],
+    awards: ['Master Orthopedic Surgeon Award', 'Innovations in Robotic Arthroplasty']
+  }
+];
+
+export const consultationTimeSlots = [
+  '09:00 AM',
+  '09:45 AM',
+  '10:30 AM',
+  '11:15 AM',
+  '01:30 PM',
+  '02:15 PM',
+  '03:00 PM',
+  '03:45 PM',
+  '04:30 PM'
+];
