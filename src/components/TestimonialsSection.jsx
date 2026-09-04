@@ -3,23 +3,23 @@ import { Star, Quote, CheckCircle2 } from 'lucide-react';
 
 const testimonials = [
   {
-    quote: "The cardiac team under Dr. Sarah Mitchell saved my father's life during an unexpected acute emergency. The real-time telemetry updates sent to our family portal kept us calm and informed every minute.",
+    quote: "Real-time telemetry updates sent to our family portal kept us calm and informed throughout my father's emergency cardiac procedure.",
     author: 'Michael H. Sterling',
-    role: 'Cardiac Surgery Patient Family',
+    role: 'Cardiac Surgery Family',
     treatment: 'Emergency Angioplasty',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200'
   },
   {
-    quote: "Booking pediatric appointments for my twins used to be stressful. MediCare's 1-click booking and Dr. Priya Patel's gentle approach made our hospital visit warm, prompt, and completely seamless.",
+    quote: "1-click booking and gentle pediatric specialists made our twin boys' visits prompt, warm, and completely stress-free.",
     author: 'Rebecca Thompson',
     role: 'Mother of Two',
-    treatment: 'Pediatric Wellness Care',
+    treatment: 'Pediatric Wellness',
     rating: 5,
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200'
   },
   {
-    quote: "Following my robotic knee replacement with Dr. Marcus Vance, I was walking pain-free in just 3 weeks. The physical therapy and digital EMR exercise guides were world-class.",
+    quote: "Walking pain-free in 3 weeks after robotic knee surgery with Dr. Vance. The digital rehabilitation guides were outstanding.",
     author: 'Arthur Vance',
     role: 'Retired Architect',
     treatment: 'Robotic Knee Replacement',
@@ -34,9 +34,9 @@ export default function TestimonialsSection() {
       <div className="container">
         <div className="section-header">
           <span className="section-tag teal">Verified Patient Stories</span>
-          <h2 className="section-title">Trusted by Over 140,000+ Families</h2>
+          <h2 className="section-title">Trusted by 140,000+ Families</h2>
           <p className="section-subtitle">
-            Hear directly from patients whose lives have been transformed through our medical precision, surgical excellence, and compassionate care.
+            Real feedback from patients and families transformed by our clinical care.
           </p>
         </div>
 

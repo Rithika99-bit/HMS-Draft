@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { demoAccounts } from '../data/demoAccounts';
+import { portalAccounts, portalCategories } from '../data/demoAccounts';
 import { 
   Activity, Lock, Mail, Eye, EyeOff, 
   ArrowLeft, ShieldCheck, HeartPulse, 
-  Calendar, Check, AlertCircle, LogIn 
+  Calendar, Check, AlertCircle, LogIn,
+  Shield, User, Stethoscope, Pill
 } from 'lucide-react';
 
 export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onShowToast }) {
+  const [selectedPortal, setSelectedPortal] = useState('doctor');
   const [selectedRole, setSelectedRole] = useState('doctor');
   const [email, setEmail] = useState('dr.sarah@medicare.health');
   const [password, setPassword] = useState('DocPass#2026');
@@ -15,13 +17,34 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleQuickFill = (account) => {
-    setSelectedRole(account.id);
-    setEmail(account.email);
-    setPassword(account.pass);
-    setError('');
-    if (onShowToast) {
-      onShowToast(`Loaded credentials for ${account.name} (${account.badge})`, 'info');
+  const handleSelectPortal = (portal) => {
+    setSelectedPortal(portal.id);
+    let targetAccountId = portal.accountId;
+    if (portal.subRoles) {
+      targetAccountId = portal.subRoles[0].accountId;
+    }
+    setSelectedRole(targetAccountId);
+    const account = portalAccounts.find(a => a.id === targetAccountId);
+    if (account) {
+      setEmail(account.email);
+      setPassword(account.pass);
+      setError('');
+      if (onShowToast) {
+        onShowToast(`Selected ${portal.name} (${account.badge})`, 'info');
+      }
+    }
+  };
+
+  const handleSelectSubRole = (accountId) => {
+    setSelectedRole(accountId);
+    const account = portalAccounts.find(a => a.id === accountId);
+    if (account) {
+      setEmail(account.email);
+      setPassword(account.pass);
+      setError('');
+      if (onShowToast) {
+        onShowToast(`Switched credentials to ${account.name} (${account.badge})`, 'info');
+      }
     }
   };
 
@@ -42,16 +65,21 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
 
     setTimeout(() => {
       setIsLoading(false);
-      // Find matching account or match by role
-      const matchedUser = demoAccounts.find(a => a.email.toLowerCase() === email.toLowerCase()) 
-        || demoAccounts.find(a => a.id === selectedRole)
-        || demoAccounts[0];
+      // Find matching account strictly in the 4 allowed portalAccounts
+      const matchedUser = portalAccounts.find(a => a.email.toLowerCase() === email.toLowerCase() && a.pass === password)
+        || portalAccounts.find(a => a.email.toLowerCase() === email.toLowerCase())
+        || portalAccounts.find(a => a.id === selectedRole);
+
+      if (!matchedUser || !['admin', 'superadmin', 'patient', 'doctor', 'pharmacist'].includes(matchedUser.id)) {
+        setError('Access Denied: Only Admin/SuperAdmin, Patient, Doctor, and Pharmacist portals are permitted.');
+        return;
+      }
 
       if (onShowToast) {
-        onShowToast(`Welcome back, ${matchedUser.name}!`, 'success');
+        onShowToast(`Authenticated as ${matchedUser.name} (${matchedUser.badge} Portal)`, 'success');
       }
       onLoginSuccess(matchedUser);
-    }, 900);
+    }, 700);
   };
 
   return (
@@ -70,7 +98,7 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
 
           <div style={{ background: 'rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '20px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span className="pulse-dot" style={{ color: '#34d399' }}></span>
-            <span>Cloud 4.2 Online</span>
+            <span>4 Portals Isolated</span>
           </div>
         </div>
 
@@ -91,19 +119,19 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
               <HeartPulse size={16} />
             </div>
             <div>
-              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Live ICU Telemetry</div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>72 BPM • 98% SpO2</div>
+              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Strict RBAC Security</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>Isolated Portal Sessions</div>
             </div>
           </div>
 
           {/* Floating Surgery Badge */}
           <div style={{ position: 'absolute', bottom: '-15px', right: '20px', background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(13, 148, 136, 0.2)', color: '#2dd4bf', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Calendar size={16} />
+              <ShieldCheck size={16} />
             </div>
             <div>
-              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>OR 3 Ready</div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>Next: 1:30 PM</div>
+              <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Zero Cross-Viewing</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>Immediate Session Kill</div>
             </div>
           </div>
         </div>
@@ -111,24 +139,24 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
         {/* Bottom Metrics */}
         <div style={{ zIndex: 10 }}>
           <h2 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#ffffff', marginBottom: '8px' }}>
-            Better Healthcare. <br />Smarter Management.
+            Role-Isolated Access. <br />Hospital Grade Security.
           </h2>
           <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '24px', lineHeight: 1.5 }}>
-            Synchronize patient health records, surgical schedules, automated pharmacy dispensation, and multi-department telemetry.
+            Access restricted strictly to Admin/SuperAdmin, Doctor, Patient, and Pharmacist portals. Once logged in, other portal views are sealed until dedicated authentication.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
             <div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8' }}>140k+</div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Patients Served</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#38bdf8' }}>4 Portals</div>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Strict Isolation</div>
             </div>
             <div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#34d399' }}>99.9%</div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>System Uptime</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#34d399' }}>Instant</div>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Immediate Logout</div>
             </div>
             <div>
-              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#c084fc' }}>256-Bit</div>
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>EHR Encrypted</div>
+              <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#c084fc' }}>HIPAA</div>
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Access Enforced</div>
             </div>
           </div>
         </div>
@@ -138,36 +166,77 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
       <div className="split-auth-side">
         <button 
           onClick={onBackToPortal}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.88rem', color: '#64748b', fontWeight: 600, marginBottom: '28px', cursor: 'pointer', background: 'none', border: 'none' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.88rem', color: '#64748b', fontWeight: 600, marginBottom: '24px', cursor: 'pointer', background: 'none', border: 'none' }}
         >
           <ArrowLeft size={16} /> Back to Public Hospital Portal
         </button>
 
-        <div style={{ marginBottom: '20px' }}>
-          <h1 style={{ fontSize: '1.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '6px' }}>
-            Portal Sign In
+        <div style={{ marginBottom: '18px' }}>
+          <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+            Hospital Portal Login
           </h1>
-          <p style={{ color: '#64748b', fontSize: '0.92rem' }}>
-            Select a role demo credential or enter your hospital staff credentials.
+          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
+            Select your assigned portal to authenticate into your isolated workspace.
           </p>
         </div>
 
-        {/* Quick Demo Credentials Bar */}
+        {/* Dedicated 4-Portal Selection */}
         <div style={{ marginBottom: '20px' }}>
           <div style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', color: '#0284c7', marginBottom: '8px', letterSpacing: '0.04em' }}>
-            ⚡ 1-Click Quick Fill Role Credentials
+            🔒 Select Portal (4 Permitted Portals)
           </div>
-          <div className="quick-demo-pills">
-            {demoAccounts.map(account => (
-              <button
-                key={account.id}
-                type="button"
-                className={`demo-pill-btn ${selectedRole === account.id ? 'active' : ''}`}
-                onClick={() => handleQuickFill(account)}
-              >
-                {account.badge}
-              </button>
-            ))}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+            {portalCategories.map(portal => {
+              const isSelected = selectedPortal === portal.id;
+              return (
+                <div
+                  key={portal.id}
+                  onClick={() => handleSelectPortal(portal)}
+                  style={{
+                    padding: '12px 14px',
+                    borderRadius: '12px',
+                    border: `1.5px solid ${isSelected ? portal.color : '#e2e8f0'}`,
+                    background: isSelected ? `${portal.color}10` : '#ffffff',
+                    boxShadow: isSelected ? `0 4px 14px ${portal.color}20` : '0 1px 3px rgba(0,0,0,0.03)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    position: 'relative'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+                    <span style={{ fontSize: '0.88rem', fontWeight: 800, color: isSelected ? portal.color : '#0f172a' }}>
+                      {portal.badge}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.74rem', color: '#64748b', lineHeight: 1.3 }}>
+                    {portal.description}
+                  </div>
+                  {portal.subRoles && isSelected && (
+                    <div style={{ display: 'flex', gap: '6px', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid #e2e8f0' }} onClick={e => e.stopPropagation()}>
+                      {portal.subRoles.map(sub => (
+                        <button
+                          key={sub.id}
+                          type="button"
+                          onClick={() => handleSelectSubRole(sub.accountId)}
+                          style={{
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            padding: '3px 8px',
+                            borderRadius: '6px',
+                            border: `1px solid ${selectedRole === sub.accountId ? portal.color : '#cbd5e1'}`,
+                            background: selectedRole === sub.accountId ? portal.color : '#ffffff',
+                            color: selectedRole === sub.accountId ? '#ffffff' : '#475569',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {sub.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -179,7 +248,7 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
 
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label className="form-label">Hospital Email Address</label>
+            <label className="form-label">Portal Email Address</label>
             <div style={{ position: 'relative' }}>
               <input 
                 type="email" 
@@ -196,7 +265,7 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
 
           <div className="form-group">
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <label className="form-label" style={{ marginBottom: 0 }}>Password</label>
+              <label className="form-label" style={{ marginBottom: 0 }}>Portal Password</label>
               <a href="#forgot" onClick={(e) => { e.preventDefault(); if (onShowToast) onShowToast('Demo password reset link dispatched to email.', 'info'); }} style={{ fontSize: '0.8rem', color: '#0284c7', fontWeight: 600 }}>
                 Forgot Password?
               </a>
@@ -222,7 +291,7 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', fontSize: '0.86rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', fontSize: '0.86rem' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', color: '#475569' }}>
               <input 
                 type="checkbox" 
@@ -232,26 +301,30 @@ export default function HospitalLoginPage({ onLoginSuccess, onBackToPortal, onSh
               />
               <span>Remember this session</span>
             </label>
+            <span style={{ fontSize: '0.78rem', color: '#64748b' }}>
+              Auto-kill on logout
+            </span>
           </div>
 
           <button 
             type="submit" 
             className="btn btn-primary btn-full btn-lg"
             disabled={isLoading}
+            style={{ fontWeight: 700 }}
           >
             {isLoading ? (
-              <span>Authenticating...</span>
+              <span>Authenticating Portal...</span>
             ) : (
               <>
                 <LogIn size={18} />
-                <span>Access Role Dashboard</span>
+                <span>Sign In to {portalCategories.find(p => p.id === selectedPortal)?.name || 'Portal'}</span>
               </>
             )}
           </button>
         </form>
 
-        <div style={{ marginTop: '28px', paddingTop: '20px', borderTop: '1px solid #e2e8f0', textAlign: 'center', fontSize: '0.82rem', color: '#94a3b8' }}>
-          <span>HIPAA & SOC-2 Type II Certified Healthcare Portal</span>
+        <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0', textAlign: 'center', fontSize: '0.82rem', color: '#94a3b8' }}>
+          <span>HIPAA Isolated Session • Immediate Logout Enforced</span>
         </div>
       </div>
     </div>

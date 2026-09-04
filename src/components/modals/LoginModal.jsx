@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { demoAccounts } from '../../data/demoAccounts';
+import { portalAccounts, portalCategories } from '../../data/demoAccounts';
 import { 
   X, Lock, Mail, Eye, EyeOff, 
   LogIn, ShieldCheck, ArrowRight, AlertCircle 
@@ -32,9 +32,14 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, onOpenFull
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      const matchedUser = demoAccounts.find(a => a.email.toLowerCase() === email.toLowerCase()) 
-        || demoAccounts.find(a => a.id === selectedRole)
-        || demoAccounts[0];
+      const matchedUser = portalAccounts.find(a => a.email.toLowerCase() === email.toLowerCase() && a.pass === password)
+        || portalAccounts.find(a => a.email.toLowerCase() === email.toLowerCase())
+        || portalAccounts.find(a => a.id === selectedRole);
+
+      if (!matchedUser || !['admin', 'superadmin', 'patient', 'doctor', 'pharmacist'].includes(matchedUser.id)) {
+        setError('Access Denied: Only Admin/SuperAdmin, Patient, Doctor, and Pharmacist portals are permitted.');
+        return;
+      }
 
       if (onShowToast) {
         onShowToast(`Signed in as ${matchedUser.name} (${matchedUser.badge})`, 'success');
@@ -55,7 +60,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, onOpenFull
             </div>
             <div>
               <h2 className="modal-title">Hospital Portal Login</h2>
-              <div className="modal-subtitle">Fast role authentication</div>
+              <div className="modal-subtitle">Fast role-isolated authentication</div>
             </div>
           </div>
           <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
@@ -65,30 +70,34 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, onOpenFull
 
         {/* Body */}
         <div className="modal-body">
-          {/* 1-Click Quick Fill Bar */}
+          {/* 1-Click Quick Fill Bar for 4 Allowed Portals */}
           <div style={{ marginBottom: '18px' }}>
             <div style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', color: '#0284c7', marginBottom: '8px' }}>
-              ⚡ 1-Click Demo Quick Fill
+              🔒 1-Click Portal Quick Fill (4 Portals)
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
-              {demoAccounts.map(account => (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
+              {portalAccounts.map(account => (
                 <button
                   key={account.id}
                   type="button"
                   onClick={() => handleQuickFill(account)}
                   style={{
-                    padding: '8px 4px',
+                    padding: '8px 10px',
                     borderRadius: '8px',
                     border: `1.5px solid ${selectedRole === account.id ? '#0284c7' : '#e2e8f0'}`,
-                    background: selectedRole === account.id ? '#f0f9ff' : '#f8fafc',
-                    color: selectedRole === account.id ? '#0284c7' : '#475569',
+                    background: selectedRole === account.id ? '#f0f9ff' : '#ffffff',
+                    color: selectedRole === account.id ? '#0284c7' : '#334155',
                     fontSize: '0.76rem',
                     fontWeight: 700,
                     cursor: 'pointer',
-                    textAlign: 'center'
+                    textAlign: 'left',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px'
                   }}
                 >
-                  {account.badge}
+                  <span>{account.badge}</span>
+                  <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 500 }}>{account.name.split(' ')[0]}</span>
                 </button>
               ))}
             </div>
@@ -138,8 +147,8 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, onOpenFull
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary btn-full btn-lg" disabled={isLoading} style={{ marginTop: '10px' }}>
-              {isLoading ? 'Authenticating...' : 'Sign In to Dashboard'}
+            <button type="submit" className="btn btn-primary btn-full btn-lg" disabled={isLoading} style={{ marginTop: '10px', fontWeight: 700 }}>
+              {isLoading ? 'Authenticating...' : 'Sign In to Portal'}
             </button>
           </form>
 
@@ -152,7 +161,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess, onOpenFull
               }}
               style={{ background: 'none', border: 'none', color: '#0284c7', fontSize: '0.86rem', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
             >
-              Open Split-Screen Portal Experience <ArrowRight size={14} />
+              Open Full-Page Portal Login <ArrowRight size={14} />
             </button>
           </div>
         </div>

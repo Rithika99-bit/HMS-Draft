@@ -9,9 +9,11 @@ import PatientDocumentsView from './PatientDocumentsView';
 import PatientProfilePrivacyView from './PatientProfilePrivacyView';
 import EmergencyModule from '../emergency/EmergencyModule';
 import PatientLabHubView from './PatientLabHubView';
-import { 
-  User, Calendar, Pill, History, ShieldCheck, 
-  FileText, Activity, Ambulance, Shield, Droplets, FlaskConical 
+import PatientImagingView from '../imaging/PatientImagingView';
+import PatientOtView from '../ot/PatientOtView';
+import {
+  User, Calendar, Pill, History, ShieldCheck,
+  FileText, Activity, Ambulance, Shield, Droplets, FlaskConical, Camera, HeartPulse
 } from 'lucide-react';
 
 export default function PatientPortalModule({ onShowToast }) {
@@ -19,6 +21,8 @@ export default function PatientPortalModule({ onShowToast }) {
 
   const navItems = [
     { id: 'dashboard', label: 'My Dashboard', icon: Activity },
+    { id: 'ot', label: 'Surgery & OT', icon: HeartPulse },
+    { id: 'imaging', label: 'Imaging & Scans', icon: Camera },
     { id: 'record', label: 'My Medical Record', icon: User },
     { id: 'timeline', label: 'Health Timeline', icon: History },
     { id: 'appointments', label: 'Appointments', icon: Calendar },
@@ -32,7 +36,7 @@ export default function PatientPortalModule({ onShowToast }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
+
       {/* Patient Top Navigation Bar */}
       <div className="admin-subnav-tabs" style={{ background: '#ffffff', padding: '10px 14px', boxShadow: 'var(--shadow-sm)', overflowX: 'auto', flexWrap: 'nowrap' }}>
         {navItems.map(item => {
@@ -59,10 +63,18 @@ export default function PatientPortalModule({ onShowToast }) {
 
       {/* Dynamic View Switcher */}
       {activeTab === 'dashboard' && (
-        <PatientDashboardView 
-          onNavigateTab={setActiveTab} 
-          onShowToast={onShowToast} 
+        <PatientDashboardView
+          onNavigateTab={setActiveTab}
+          onShowToast={onShowToast}
         />
+      )}
+
+      {activeTab === 'ot' && (
+        <PatientOtView onShowToast={onShowToast} />
+      )}
+
+      {activeTab === 'imaging' && (
+        <PatientImagingView onShowToast={onShowToast} />
       )}
 
       {activeTab === 'record' && (

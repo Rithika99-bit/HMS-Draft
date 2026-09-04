@@ -269,13 +269,88 @@ export function ImagingProvider({ children }) {
     });
   };
 
-  // ─── 8. ADD TEST TO MASTER ───────────────────────────────────────────────────
+  // ─── 8. PACS / DICOM SYSTEM CONFIGURATION ──────────────────────────────────────
+  const [pacsConfig, setPacsConfig] = useState({
+    pacsAeTitle: 'MEDICARE_PACS_SERVER',
+    pacsIpAddress: '192.168.10.45',
+    dicomPort: 104,
+    hl7FhirSync: true,
+    autoRouting: true,
+    storageTier: 'Hot Cloud Archive (Amazon S3 / DICOM Web)',
+    retentionYears: 10
+  });
+
+  const updatePacsConfig = (newConfig, user = 'SuperAdmin IT Governance') => {
+    setPacsConfig(prev => ({ ...prev, ...newConfig }));
+    logRisAudit({
+      user, role: 'SuperAdmin', action: 'PACS_CONFIG_UPDATED', orderId: 'N/A',
+      details: `PACS/DICOM server settings updated: AE Title=${newConfig.pacsAeTitle || pacsConfig.pacsAeTitle}, Port=${newConfig.dicomPort || pacsConfig.dicomPort}`
+    });
+  };
+
+  // ─── 9. TEST MASTER EDIT & TOGGLE STATUS ────────────────────────────────────
   const addImagingTest = (newTest) => {
     setTestMaster(prev => [newTest, ...prev]);
     logRisAudit({
-      user: 'System Administrator', role: 'SuperAdmin', action: 'TEST_MASTER_ADDED',
+      user: 'SuperAdmin Governance', role: 'SuperAdmin', action: 'TEST_MASTER_ADDED',
       orderId: 'N/A',
       details: `New imaging test added: ${newTest.testName} (${newTest.testCode}, ${newTest.modality})`
+    });
+  };
+
+  const toggleTestStatus = (testCode) => {
+    setTestMaster(prev => prev.map(t => {
+      if (t.testCode === testCode) {
+        const nextStatus = t.status === 'Active' ? 'Inactive' : 'Active';
+        logRisAudit({
+          user: 'SuperAdmin Governance', role: 'SuperAdmin', action: 'TEST_STATUS_TOGGLED',
+          orderId: 'N/A', details: `Imaging test ${t.testName} (${testCode}) set to ${nextStatus}`
+        });
+        return { ...t, status: nextStatus };
+      }
+      return t;
+    }));
+  };
+
+  const updateImagingTest = (testCode, updatedFields) => {
+    setTestMaster(prev => prev.map(t => {
+      if (t.testCode === testCode) {
+        const updated = { ...t, ...updatedFields };
+        logRisAudit({
+          user: 'SuperAdmin Governance', role: 'SuperAdmin', action: 'TEST_MASTER_UPDATED',
+          orderId: 'N/A', details: `Imaging test ${t.testName} updated (Price: $${updated.price})`
+        });
+        return updated;
+      }
+      return t;
+    }));
+  };
+
+  // ─── 10. CANCEL OR REJECT ORDER (ADMIN) ────────────────────────────────────
+  const cancelImagingOrder = (orderId, reason = 'Clinical cancellation requested', actor = 'Radiology Admin') => {
+    setImagingOrders(prev => prev.map(o => {
+      if (o.orderId === orderId) {
+        return { ...o, status: 'Cancelled / Rejected', reportStatus: 'Cancelled', cancellationReason: reason };
+      }
+      return o;
+    }));
+    logRisAudit({
+      user: actor, role: 'Radiology Admin', action: 'ORDER_CANCELLED', orderId,
+      details: `Order ${orderId} cancelled/rejected. Reason: ${reason}`
+    });
+  };
+
+  // ─── 11. PAY IMAGING INVOICE (PATIENT / BILLING) ───────────────────────────
+  const payImagingInvoice = (invoiceId, paymentMethod = 'Online Credit Card', actor = 'Patient Portal') => {
+    setImagingInvoices(prev => prev.map(inv => {
+      if (inv.invoiceId === invoiceId) {
+        return { ...inv, paymentStatus: 'Paid in Full', status: 'Paid', paymentMethod, paidAt: new Date().toLocaleDateString() };
+      }
+      return inv;
+    }));
+    logRisAudit({
+      user: actor, role: 'Patient / Billing', action: 'INVOICE_PAID', orderId: invoiceId,
+      details: `Invoice ${invoiceId} paid in full via ${paymentMethod}`
     });
   };
 
@@ -283,10 +358,12 @@ export function ImagingProvider({ children }) {
     <ImagingContext.Provider value={{
       testMaster, imagingOrders, imagingReports,
       criticalFindings, imagingInvoices, risAuditTrail, imagingStaff,
+      pacsConfig,
       // Actions
       createImagingOrder, scheduleImagingStudy, markExamComplete,
       submitRadiologistReport, amendReport, acknowledgeCriticalFinding,
-      addImagingTest, logRisAudit
+      addImagingTest, toggleTestStatus, updateImagingTest,
+      cancelImagingOrder, payImagingInvoice, updatePacsConfig, logRisAudit
     }}>
       {children}
     </ImagingContext.Provider>

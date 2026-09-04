@@ -5,37 +5,37 @@ const steps = [
   {
     num: '01',
     title: 'Easy Registration',
-    desc: 'Quick digital onboarding with instant patient ID and emergency profile.',
+    desc: 'Instant digital onboarding with patient ID.',
     icon: UserPlus
   },
   {
     num: '02',
     title: 'Find Doctor',
-    desc: 'Browse certified specialists by department, credentials, and ratings.',
+    desc: 'Browse top certified specialists.',
     icon: Search
   },
   {
     num: '03',
     title: 'Book Live Slot',
-    desc: 'Select preferred date and real-time consultation hour in seconds.',
+    desc: 'Select preferred date and consultation time.',
     icon: CalendarCheck
   },
   {
     num: '04',
     title: 'Consultation',
-    desc: 'In-person clinic visit or high-definition encrypted telehealth video.',
+    desc: 'In-person clinic or encrypted video visit.',
     icon: Stethoscope
   },
   {
     num: '05',
     title: 'Instant EMR Record',
-    desc: 'Digital e-prescription and diagnostic lab orders sent immediately.',
+    desc: 'Digital e-prescriptions and lab orders synced.',
     icon: FileText
   },
   {
     num: '06',
     title: 'Cashless Checkout',
-    desc: 'Hassle-free insurance claims and transparent itemized receipts.',
+    desc: 'Hassle-free insurance and transparent receipts.',
     icon: CreditCard
   }
 ];
@@ -48,7 +48,7 @@ export default function PatientJourneySection({ onOpenBooking }) {
           <span className="section-tag teal">Seamless Care Workflow</span>
           <h2 className="section-title">The MediCare Patient Journey</h2>
           <p className="section-subtitle">
-            From your very first booking to complete post-treatment recovery, experience a connected digital healthcare workflow built around your convenience.
+            Simple 6-step digital healthcare journey from first booking to full recovery.
           </p>
         </div>
 

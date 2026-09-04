@@ -1,31 +1,27 @@
 import React, { useState } from 'react';
 import { servicesData } from '../data/servicesData';
 import { 
-  Users, Stethoscope, Calendar, FileText, 
-  Pill, FlaskConical, CreditCard, UserCheck, 
-  Boxes, BarChart3, Check, ArrowUpRight 
+  Users, Stethoscope, FileText, 
+  Pill, FlaskConical, CreditCard, 
+  Check, ArrowRight, Sparkles 
 } from 'lucide-react';
 
 const iconMap = {
   Users: Users,
   Stethoscope: Stethoscope,
-  CalendarClock: Calendar,
   FileHeart: FileText,
   Pill: Pill,
   FlaskConical: FlaskConical,
-  CreditCard: CreditCard,
-  UserCheck: UserCheck,
-  Boxes: Boxes,
-  BarChart3: BarChart3
+  CreditCard: CreditCard
 };
 
 export default function ServicesSection({ onOpenBooking, onShowToast }) {
-  const [selectedService, setSelectedService] = useState(null);
+  const [activeModule, setActiveModule] = useState(null);
 
-  const handleLearnMore = (service) => {
-    setSelectedService(service);
+  const handleModuleClick = (service) => {
+    setActiveModule(service.id);
     if (onShowToast) {
-      onShowToast(`Viewing module: ${service.title} (${service.stat})`, 'info');
+      onShowToast(`Selected ${service.title} • Live Status Active (${service.stat})`, 'info');
     }
   };
 
@@ -33,21 +29,33 @@ export default function ServicesSection({ onOpenBooking, onShowToast }) {
     <section className="services-section" id="services">
       <div className="container">
         <div className="section-header">
-          <span className="section-tag blue">Enterprise Hospital Ecosystem</span>
-          <h2 className="section-title">10 Comprehensive Healthcare Modules</h2>
+          <span className="section-tag blue">
+            <Sparkles size={14} className="tag-icon-pulse" />
+            Enterprise Hospital Ecosystem
+          </span>
+          <h2 className="section-title">6 Core Healthcare Modules</h2>
           <p className="section-subtitle">
-            From patient admission and doctor duty rosters to robotic surgical scheduling and electronic health records, our unified platform orchestrates hospital workflows seamlessly.
+            Smart digital hospital operations powering admissions, encrypted EMR, automated pharmacy, and diagnostics.
           </p>
         </div>
 
         <div className="services-grid">
-          {servicesData.map((service) => {
+          {servicesData.map((service, index) => {
             const IconComponent = iconMap[service.icon] || Stethoscope;
             return (
-              <div className="service-card" key={service.id}>
+              <div 
+                className={`service-card ${activeModule === service.id ? 'active-card' : ''}`}
+                key={service.id}
+                style={{
+                  '--card-color': service.color,
+                  '--card-rgb': service.colorRgb,
+                  '--card-index': index
+                }}
+                onClick={() => handleModuleClick(service)}
+              >
                 <div className="service-card-top">
                   <div className="service-icon-box" style={{ background: service.color }}>
-                    <IconComponent size={26} />
+                    <IconComponent size={24} strokeWidth={2.4} />
                   </div>
                   <span className="service-num">{service.number}</span>
                 </div>
@@ -66,8 +74,14 @@ export default function ServicesSection({ onOpenBooking, onShowToast }) {
                 </div>
 
                 <div className="service-card-footer">
-                  <span className="service-badge">{service.badge}</span>
-                  <span className="service-stat">{service.stat}</span>
+                  <span className="service-badge">
+                    <span className="pulse-dot-sm" style={{ background: service.color }}></span>
+                    {service.badge}
+                  </span>
+                  <div className="service-stat-action">
+                    <span className="service-stat">{service.stat}</span>
+                    <ArrowRight size={14} className="service-arrow" />
+                  </div>
                 </div>
               </div>
             );

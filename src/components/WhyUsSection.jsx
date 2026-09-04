@@ -14,33 +14,33 @@ const statsData = [
 const pillars = [
   {
     icon: Award,
-    title: 'International Accreditations',
-    desc: 'Joint Commission International (JCI) and NABH accredited standards guaranteeing patient safety.'
+    title: 'Global Accreditations',
+    desc: 'JCI & NABH accredited standards guaranteeing patient safety.'
   },
   {
     icon: Cpu,
-    title: 'Robotic & 3D Diagnostics',
-    desc: 'High-precision robotic surgery suites, 512-slice CT scanners, and 3-Tesla ultra-clear MRI systems.'
+    title: 'Robotic Diagnostics',
+    desc: 'Robotic surgical suites, 512-slice CT, and 3T MRI systems.'
   },
   {
     icon: Zap,
-    title: 'Zero-Wait Emergency Dispatch',
-    desc: 'GPS-tracked mobile ICU ambulances with live vitals telemetry synced straight to the trauma ER team.'
+    title: 'Fast Emergency Dispatch',
+    desc: 'GPS-tracked mobile ICUs with live vitals synced to trauma ER.'
   },
   {
     icon: ShieldCheck,
-    title: '256-Bit Encrypted Records',
-    desc: 'HIPAA & HL7 certified electronic health records ensuring confidentiality and instant doctor access.'
+    title: 'Encrypted Records',
+    desc: 'HIPAA & HL7 certified 256-bit encrypted health data.'
   },
   {
     icon: HeartHandshake,
-    title: 'Compassionate Care Culture',
-    desc: 'Dedicated patient navigators providing empathetic guidance from admission through recovery.'
+    title: 'Compassionate Care',
+    desc: 'Dedicated patient navigators guiding your recovery.'
   },
   {
     icon: Clock,
-    title: 'Rapid Telehealth Consults',
-    desc: 'Consult top medical specialists from the comfort of your home in under 15 minutes.'
+    title: 'Rapid Telehealth',
+    desc: 'Consult top medical specialists from home in minutes.'
   }
 ];
 
@@ -80,7 +80,7 @@ export default function WhyUsSection() {
           <span className="section-tag blue">Clinical Excellence & Innovation</span>
           <h2 className="section-title">Why Patients Choose MediCare</h2>
           <p className="section-subtitle">
-            We unite world-class clinical expertise, advanced medical robotics, and human empathy to deliver unmatched healthcare standards.
+            Uniting clinical expertise, surgical robotics, and compassionate patient care.
           </p>
         </div>
 

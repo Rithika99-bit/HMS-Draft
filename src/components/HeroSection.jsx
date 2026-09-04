@@ -21,20 +21,20 @@ export default function HeroSection({ onOpenBooking, onOpenEmergency }) {
             </h1>
 
             <p className="hero-subtitle">
-              A comprehensive clinical ecosystem connecting doctors, nurses, administrators, and patients. Streamline electronic health records, surgical suites, automated pharmacy dispatch, and 24/7 critical emergency care.
+              Connected clinical ecosystem uniting doctors, staff, and patients with real-time digital care.
             </p>
 
             <div className="hero-cta-group">
               <button className="btn btn-primary btn-lg" onClick={() => onOpenBooking()}>
                 <Calendar size={20} />
-                <span>Book an Appointment</span>
+                <span>Book Appointment</span>
               </button>
 
               <button className="btn btn-secondary btn-lg" onClick={() => {
                 const el = document.getElementById('services');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}>
-                <span>Explore 10 Modules</span>
+                <span>Explore 6 Modules</span>
                 <ArrowRight size={18} />
               </button>
             </div>
@@ -47,7 +47,7 @@ export default function HeroSection({ onOpenBooking, onOpenEmergency }) {
                 </div>
                 <div>
                   <div className="trust-title">JCI & NABH Certified</div>
-                  <div className="trust-desc">Gold Standard Clinical Care</div>
+                  <div className="trust-desc">Gold Standard Care</div>
                 </div>
               </div>
 
@@ -57,7 +57,7 @@ export default function HeroSection({ onOpenBooking, onOpenEmergency }) {
                 </div>
                 <div>
                   <div className="trust-title">HIPAA & HL7 Encrypted</div>
-                  <div className="trust-desc">100% Patient Data Privacy</div>
+                  <div className="trust-desc">100% Data Privacy</div>
                 </div>
               </div>
             </div>

@@ -10,7 +10,7 @@ export default function DoctorsSection({ onOpenBooking, onOpenDoctorProfile }) {
           <span className="section-tag blue">Distinguished Medical Faculty</span>
           <h2 className="section-title">Meet Our Leading Specialists</h2>
           <p className="section-subtitle">
-            Board-certified physicians, renowned surgeons, and compassionate caregivers dedicated to providing exceptional patient-centered healthcare.
+            Board-certified physicians and surgeons providing patient-centered clinical care.
           </p>
         </div>
 
@@ -18,9 +18,9 @@ export default function DoctorsSection({ onOpenBooking, onOpenDoctorProfile }) {
           {doctorsData.map((doctor) => (
             <div className="doctor-card" key={doctor.id}>
               <div className="doctor-image-wrapper">
-                <img 
-                  src={doctor.image} 
-                  alt={doctor.name} 
+                <img
+                  src={doctor.image}
+                  alt={doctor.name}
                   className="doctor-image"
                   loading="lazy"
                 />
@@ -44,7 +44,7 @@ export default function DoctorsSection({ onOpenBooking, onOpenDoctorProfile }) {
                 </div>
 
                 <div className="doctor-actions">
-                  <button 
+                  <button
                     className="btn btn-secondary btn-sm"
                     onClick={() => onOpenDoctorProfile(doctor)}
                     aria-label={`View profile for ${doctor.name}`}
@@ -53,7 +53,7 @@ export default function DoctorsSection({ onOpenBooking, onOpenDoctorProfile }) {
                     <span>Bio Profile</span>
                   </button>
 
-                  <button 
+                  <button
                     className="btn btn-primary btn-sm"
                     onClick={() => onOpenBooking(doctor.dept, doctor.name)}
                     aria-label={`Book appointment with ${doctor.name}`}

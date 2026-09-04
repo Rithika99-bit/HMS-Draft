@@ -15,7 +15,7 @@ export default function CtaBanner({ onOpenBooking, onOpenEmergency }) {
             </div>
             <h2 className="cta-banner-title">Need Immediate Clinical Assistance?</h2>
             <p className="cta-banner-desc">
-              Our 24/7 Trauma Command Center and online outpatient booking system are ready to assist you right now.
+              24/7 trauma emergency care and online appointment booking are available now.
             </p>
           </div>
 

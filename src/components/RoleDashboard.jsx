@@ -1,31 +1,43 @@
 import React from 'react';
-import { demoAccounts } from '../data/demoAccounts';
 import DoctorModule from './doctor/DoctorModule';
 import PatientPortalModule from './patient/PatientPortalModule';
 import AdminSuperAdminModule from './admin/AdminSuperAdminModule';
 import PharmacyModule from './pharmacy/PharmacyModule';
-import LabOperationsModule from './lab/LabOperationsModule';
 import {
   Activity, ShieldCheck, LogOut, ArrowLeft,
-  Stethoscope, Pill, User, HeartPulse,
-  Clock, CheckCircle, AlertTriangle, FileText,
-  Plus, Download, ExternalLink, Calendar, Info,
-  FolderHeart, Bed, Layers, Ambulance, Shield
+  Lock, AlertTriangle
 } from 'lucide-react';
 
-export default function RoleDashboard({ currentUser, onLogout, onSwitchRole, onBackToPortal, onShowToast }) {
-  const user = currentUser || demoAccounts[0];
+export default function RoleDashboard({ currentUser, onLogout, onBackToPortal, onShowToast }) {
+  if (!currentUser) {
+    return (
+      <div className="dashboard-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
+        <div style={{ background: '#ffffff', padding: '36px', borderRadius: '16px', border: '1px solid #fee2e2', textAlign: 'center', maxWidth: '460px', boxShadow: '0 20px 40px rgba(0,0,0,0.06)' }}>
+          <AlertTriangle size={48} color="#ef4444" style={{ margin: '0 auto 16px' }} />
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>Session Not Found</h2>
+          <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '24px' }}>
+            No authenticated portal session is active. Please log in to your designated portal.
+          </p>
+          <button className="btn btn-primary btn-full" onClick={onLogout}>
+            <LogOut size={16} /> Immediate Return to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const user = currentUser;
 
   return (
     <div className="dashboard-page">
       {/* Dashboard Sticky Topbar */}
       <header className="dash-topbar">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
           <div className="dash-brand">
             <div className="brand-icon" style={{ width: '32px', height: '32px' }}>
               <Activity size={18} />
             </div>
-            <span>MediCare <span style={{ color: '#0284c7', fontSize: '0.9rem', fontWeight: 600 }}>Role Portal</span></span>
+            <span>MediCare <span style={{ color: '#0284c7', fontSize: '0.9rem', fontWeight: 600 }}>{user.badge} Portal</span></span>
           </div>
 
           <button
@@ -37,20 +49,24 @@ export default function RoleDashboard({ currentUser, onLogout, onSwitchRole, onB
           </button>
         </div>
 
-        {/* Quick Role Switcher */}
-        <div className="dash-role-switcher">
-          {demoAccounts.map(account => (
-            <button
-              key={account.id}
-              className={`dash-role-btn ${user.id === account.id ? 'active' : ''}`}
-              onClick={() => onSwitchRole(account)}
-            >
-              {account.badge}
-            </button>
-          ))}
+        {/* Security Isolation Indicator (Replaces cross-role switcher) */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(2, 132, 199, 0.08)',
+          border: '1px solid rgba(2, 132, 199, 0.25)',
+          padding: '6px 14px',
+          borderRadius: '20px',
+          fontSize: '0.78rem',
+          fontWeight: 700,
+          color: '#0369a1'
+        }}>
+          <Lock size={13} color="#0284c7" />
+          <span>Strict Portal Isolation Active • Cross-Viewing Locked</span>
         </div>
 
-        {/* User Info & Logout */}
+        {/* User Info & Immediate Logout */}
         <div className="dash-user-panel">
           <img src={user.avatar} alt={user.name} className="dash-user-avatar" />
           <div>
@@ -58,11 +74,23 @@ export default function RoleDashboard({ currentUser, onLogout, onSwitchRole, onB
             <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{user.role}</div>
           </div>
           <button
-            className="btn btn-outline btn-sm"
+            className="btn btn-danger btn-sm"
             onClick={onLogout}
-            style={{ marginLeft: '12px', padding: '6px 12px' }}
+            style={{ 
+              marginLeft: '14px', 
+              padding: '6px 14px',
+              background: '#ef4444',
+              color: '#ffffff',
+              border: 'none',
+              fontWeight: 700,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              cursor: 'pointer'
+            }}
+            title="Terminate session and logout immediately"
           >
-            <LogOut size={14} /> Logout
+            <LogOut size={14} /> Immediate Logout
           </button>
         </div>
       </header>
@@ -79,12 +107,12 @@ export default function RoleDashboard({ currentUser, onLogout, onSwitchRole, onB
               </span>
             </div>
             <p className="dash-subtitle" style={{ marginTop: '6px' }}>
-              Department: <strong>{user.department}</strong> • Shared Longitudinal Patient Record & Inventory Active
+              Department: <strong>{user.department}</strong> • Isolated Single-Portal Authorization
             </p>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <span style={{ background: 'rgba(255,255,255,0.15)', padding: '8px 16px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 600 }}>
-              Session: Encrypted (HIPAA / FHIR R4)
+              Session: Encrypted (HIPAA Isolated)
             </span>
           </div>
         </div>
@@ -114,12 +142,22 @@ export default function RoleDashboard({ currentUser, onLogout, onSwitchRole, onB
           <PharmacyModule onShowToast={onShowToast} />
         )}
 
-        {/* ── 6. LAB TECHNOLOGIST MODULE ──────────────────────────────── */}
-        {user.id === 'lab' && (
-          <LabOperationsModule />
+        {/* ── ACCESS DENIED FALLBACK (IF OUTSIDE THE 4 ROLES) ──────────── */}
+        {!['doctor', 'patient', 'admin', 'superadmin', 'pharmacist'].includes(user.id) && (
+          <div style={{ background: '#ffffff', padding: '40px', borderRadius: '16px', border: '1px solid #fee2e2', textAlign: 'center', maxWidth: '540px', margin: '40px auto' }}>
+            <AlertTriangle size={48} color="#ef4444" style={{ margin: '0 auto 16px' }} />
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+              Unauthorized Portal Role
+            </h2>
+            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '20px' }}>
+              Your account does not belong to the 4 permitted portals (Admin/SuperAdmin, Patient, Doctor, or Pharmacist).
+            </p>
+            <button className="btn btn-primary" onClick={onLogout}>
+              <LogOut size={16} /> Immediate Logout to Login Screen
+            </button>
+          </div>
         )}
       </main>
     </div>
   );
 }
-

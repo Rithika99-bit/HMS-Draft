@@ -131,9 +131,29 @@ export default function TechnicianWorklistView({ onShowToast }) {
                 Confirming acquisition for <strong>{techNoteModal.testName}</strong> — Patient: <strong>{techNoteModal.patientName}</strong>
               </p>
               <form onSubmit={handleComplete} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  <div>
+                    <label className="form-label">Radiation / Power (KVP / mAs)</label>
+                    <input type="text" className="form-input" defaultValue="120 kVp / 250 mAs" placeholder="120 kVp / 250 mAs" />
+                  </div>
+                  <div>
+                    <label className="form-label">Contrast Batch # (If used)</label>
+                    <input type="text" className="form-input" defaultValue={techNoteModal.contrastUsed !== 'None' ? 'CTX-2026-992' : 'N/A'} />
+                  </div>
+                </div>
+                <div>
+                  <label className="form-label">Patient Position & Scan Quality</label>
+                  <input type="text" className="form-input" defaultValue="Supine PA & Lateral • Quality: Excellent (No motion artifact)" />
+                </div>
+                <div>
+                  <label className="form-label">Simulated DICOM Image Upload / Attachments</label>
+                  <div style={{ border: '2px dashed #0284c7', borderRadius: '6px', padding: '10px', textAlign: 'center', background: '#e0f2fe', color: '#0284c7', fontSize: '0.8rem', fontWeight: 600 }}>
+                    📷 4 DICOM Slices Ready (Series UID: 1.2.840.10008.5.1.4...)
+                  </div>
+                </div>
                 <div>
                   <label className="form-label">Technician Acquisition Notes</label>
-                  <textarea rows={3} className="form-input" value={techNote}
+                  <textarea rows={2} className="form-input" value={techNote}
                     onChange={e => setTechNote(e.target.value)} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '6px' }}>

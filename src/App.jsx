@@ -5,6 +5,8 @@ import './styles/modals.css';
 import { EmrProvider } from './context/EmrContext';
 import { PharmacyProvider } from './context/PharmacyContext';
 import { LabProvider } from './context/LabContext';
+import { ImagingProvider } from './context/ImagingContext';
+import { OtProvider } from './context/OtContext';
 
 // Components
 import TopBar from './components/TopBar';
@@ -31,7 +33,7 @@ import Toast from './components/modals/Toast';
 export default function App() {
   // Current view: 'portal' | 'login' | 'dashboard'
   const [currentView, setCurrentView] = useState('portal');
-  
+
   // User authentication session
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -84,133 +86,130 @@ export default function App() {
 
   const handleLogout = () => {
     setCurrentUser(null);
-    setCurrentView('portal');
-    showToast('Logged out successfully.', 'info');
-  };
-
-  const handleSwitchRole = (newRoleAccount) => {
-    setCurrentUser(newRoleAccount);
-    showToast(`Switched view to ${newRoleAccount.badge} (${newRoleAccount.name})`, 'info');
+    setCurrentView('login');
+    showToast('Logged out immediately. Session terminated.', 'info');
   };
 
   return (
     <EmrProvider>
       <PharmacyProvider>
         <LabProvider>
-          <div className="medicare-app-root">
-          {/* Toast Alert */}
-          <Toast 
-            message={toast.message} 
-            type={toast.type} 
-            onClose={() => setToast({ message: '', type: 'info' })} 
-          />
-
-          {/* Global Modals */}
-          <BookingModal 
-            isOpen={bookingModalOpen}
-            onClose={() => setBookingModalOpen(false)}
-            initialDept={bookingDept}
-            initialDoctor={bookingDoctor}
-            onShowToast={showToast}
-          />
-
-          <DoctorProfileModal 
-            isOpen={doctorModalOpen}
-            doctor={selectedDoctor}
-            onClose={() => setDoctorModalOpen(false)}
-            onBookWithDoctor={(dept, doctorName) => handleOpenBooking(dept, doctorName)}
-          />
-
-          <EmergencyModal 
-            isOpen={emergencyModalOpen}
-            onClose={() => setEmergencyModalOpen(false)}
-            onShowToast={showToast}
-          />
-
-          <LoginModal 
-            isOpen={quickLoginOpen}
-            onClose={() => setQuickLoginOpen(false)}
-            onLoginSuccess={handleLoginSuccess}
-            onOpenFullLogin={() => setCurrentView('login')}
-            onShowToast={showToast}
-          />
-
-          {/* VIEW SWITCHING LOGIC */}
-          {currentView === 'login' && (
-            <HospitalLoginPage 
-              onLoginSuccess={handleLoginSuccess}
-              onBackToPortal={() => setCurrentView('portal')}
-              onShowToast={showToast}
-            />
-          )}
-
-          {currentView === 'dashboard' && (
-            <RoleDashboard 
-              currentUser={currentUser}
-              onLogout={handleLogout}
-              onSwitchRole={handleSwitchRole}
-              onBackToPortal={() => setCurrentView('portal')}
-              onShowToast={showToast}
-            />
-          )}
-
-          {currentView === 'portal' && (
-            <div className="portal-landing-wrapper">
-              <TopBar onOpenEmergency={() => setEmergencyModalOpen(true)} />
-              
-              <Navbar 
-                onOpenBooking={() => handleOpenBooking()}
-                onOpenLogin={() => setQuickLoginOpen(true)}
-                onSwitchToLogin={() => setCurrentView('login')}
-                currentUser={currentUser}
-                onOpenDashboard={() => setCurrentView('dashboard')}
-                onLogout={handleLogout}
-              />
-
-              <main>
-                <HeroSection 
-                  onOpenBooking={() => handleOpenBooking()}
-                  onOpenEmergency={() => setEmergencyModalOpen(true)}
+          <ImagingProvider>
+            <OtProvider>
+              <div className="medicare-app-root">
+                {/* Toast Alert */}
+                <Toast
+                  message={toast.message}
+                  type={toast.type}
+                  onClose={() => setToast({ message: '', type: 'info' })}
                 />
 
-                <ServicesSection 
-                  onOpenBooking={() => handleOpenBooking()}
+                {/* Global Modals */}
+                <BookingModal
+                  isOpen={bookingModalOpen}
+                  onClose={() => setBookingModalOpen(false)}
+                  initialDept={bookingDept}
+                  initialDoctor={bookingDoctor}
                   onShowToast={showToast}
                 />
 
-                <DepartmentsSection 
-                  onOpenBooking={(deptName) => handleOpenBooking(deptName)}
+                <DoctorProfileModal
+                  isOpen={doctorModalOpen}
+                  doctor={selectedDoctor}
+                  onClose={() => setDoctorModalOpen(false)}
+                  onBookWithDoctor={(dept, doctorName) => handleOpenBooking(dept, doctorName)}
                 />
 
-                <DoctorsSection 
-                  onOpenBooking={(dept, doctorName) => handleOpenBooking(dept, doctorName)}
-                  onOpenDoctorProfile={handleOpenDoctorProfile}
+                <EmergencyModal
+                  isOpen={emergencyModalOpen}
+                  onClose={() => setEmergencyModalOpen(false)}
+                  onShowToast={showToast}
                 />
 
-                <PatientJourneySection 
-                  onOpenBooking={() => handleOpenBooking()}
+                <LoginModal
+                  isOpen={quickLoginOpen}
+                  onClose={() => setQuickLoginOpen(false)}
+                  onLoginSuccess={handleLoginSuccess}
+                  onOpenFullLogin={() => setCurrentView('login')}
+                  onShowToast={showToast}
                 />
 
-                <WhyUsSection />
+                {/* VIEW SWITCHING LOGIC */}
+                {currentView === 'login' && (
+                  <HospitalLoginPage
+                    onLoginSuccess={handleLoginSuccess}
+                    onBackToPortal={() => setCurrentView('portal')}
+                    onShowToast={showToast}
+                  />
+                )}
 
-                <TestimonialsSection />
+                {currentView === 'dashboard' && (
+                  <RoleDashboard
+                    currentUser={currentUser}
+                    onLogout={handleLogout}
+                    onBackToPortal={() => setCurrentView('portal')}
+                    onShowToast={showToast}
+                  />
+                )}
 
-                <CtaBanner 
-                  onOpenBooking={() => handleOpenBooking()}
-                  onOpenEmergency={() => setEmergencyModalOpen(true)}
-                />
-              </main>
+                {currentView === 'portal' && (
+                  <div className="portal-landing-wrapper">
+                    <TopBar onOpenEmergency={() => setEmergencyModalOpen(true)} />
 
-              <Footer 
-                onOpenEmergency={() => setEmergencyModalOpen(true)}
-                onShowToast={showToast}
-              />
-            </div>
-          )}
-        </div>
+                    <Navbar
+                      onOpenBooking={() => handleOpenBooking()}
+                      onOpenLogin={() => setQuickLoginOpen(true)}
+                      onSwitchToLogin={() => setCurrentView('login')}
+                      currentUser={currentUser}
+                      onOpenDashboard={() => setCurrentView('dashboard')}
+                      onLogout={handleLogout}
+                    />
+
+                    <main>
+                      <HeroSection
+                        onOpenBooking={() => handleOpenBooking()}
+                        onOpenEmergency={() => setEmergencyModalOpen(true)}
+                      />
+
+                      <ServicesSection
+                        onOpenBooking={() => handleOpenBooking()}
+                        onShowToast={showToast}
+                      />
+
+                      <DepartmentsSection
+                        onOpenBooking={(deptName) => handleOpenBooking(deptName)}
+                      />
+
+                      <DoctorsSection
+                        onOpenBooking={(dept, doctorName) => handleOpenBooking(dept, doctorName)}
+                        onOpenDoctorProfile={handleOpenDoctorProfile}
+                      />
+
+                      <PatientJourneySection
+                        onOpenBooking={() => handleOpenBooking()}
+                      />
+
+                      <WhyUsSection />
+
+                      <TestimonialsSection />
+
+                      <CtaBanner
+                        onOpenBooking={() => handleOpenBooking()}
+                        onOpenEmergency={() => setEmergencyModalOpen(true)}
+                      />
+                    </main>
+
+                    <Footer
+                      onOpenEmergency={() => setEmergencyModalOpen(true)}
+                      onShowToast={showToast}
+                    />
+                  </div>
+                )}
+              </div>
+            </OtProvider>
+          </ImagingProvider>
         </LabProvider>
       </PharmacyProvider>
     </EmrProvider>
   );
 }
-

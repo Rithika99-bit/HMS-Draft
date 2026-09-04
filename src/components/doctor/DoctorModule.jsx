@@ -4,13 +4,15 @@ import DoctorPatientChart from './DoctorPatientChart';
 import DoctorTimelineView from './DoctorTimelineView';
 import DoctorResultsView from './DoctorResultsView';
 import EmergencyModule from '../emergency/EmergencyModule';
+import DoctorImagingView from '../imaging/DoctorImagingView';
+import SurgeonOtView from '../ot/SurgeonOtView';
 import { 
   Stethoscope, User, Calendar, History, 
-  Activity, Ambulance, ShieldCheck, FileText, Droplets 
+  Activity, Ambulance, ShieldCheck, FileText, Droplets, Camera, HeartPulse 
 } from 'lucide-react';
 
 export default function DoctorModule({ onShowToast }) {
-  const [activeDoctorView, setActiveDoctorView] = useState('dashboard'); // 'dashboard' | 'chart' | 'timeline' | 'results' | 'emergency'
+  const [activeDoctorView, setActiveDoctorView] = useState('dashboard'); // 'dashboard' | 'chart' | 'timeline' | 'results' | 'imaging' | 'ot' | 'emergency'
 
   const handleOpenPatientChart = (uhid) => {
     setActiveDoctorView('chart');
@@ -32,6 +34,33 @@ export default function DoctorModule({ onShowToast }) {
         >
           <Stethoscope size={16} />
           <span>Clinical Dashboard & Queue</span>
+        </button>
+
+        <button 
+          className={`admin-sub-btn ${activeDoctorView === 'ot' ? 'active' : ''}`}
+          onClick={() => setActiveDoctorView('ot')}
+          style={{ fontSize: '0.88rem', padding: '10px 16px' }}
+        >
+          <HeartPulse size={16} />
+          <span>Operation Theatre & Surgery</span>
+        </button>
+
+        <button 
+          className={`admin-sub-btn ${activeDoctorView === 'imaging' ? 'active' : ''}`}
+          onClick={() => setActiveDoctorView('imaging')}
+          style={{ fontSize: '0.88rem', padding: '10px 16px' }}
+        >
+          <Camera size={16} />
+          <span>Diagnostic Imaging & PACS</span>
+        </button>
+
+        <button 
+          className={`admin-sub-btn ${activeDoctorView === 'chart' ? 'active' : ''}`}
+          onClick={() => setActiveDoctorView('chart')}
+          style={{ fontSize: '0.88rem', padding: '10px 16px' }}
+        >
+          <User size={16} />
+          <span>Patient Chart (15-Facet EHR)</span>
         </button>
 
         <button 
@@ -78,6 +107,14 @@ export default function DoctorModule({ onShowToast }) {
           onOpenEmergency={() => setActiveDoctorView('emergency')}
           onShowToast={onShowToast} 
         />
+      )}
+
+      {activeDoctorView === 'ot' && (
+        <SurgeonOtView onShowToast={onShowToast} />
+      )}
+
+      {activeDoctorView === 'imaging' && (
+        <DoctorImagingView onShowToast={onShowToast} />
       )}
 
       {activeDoctorView === 'chart' && (

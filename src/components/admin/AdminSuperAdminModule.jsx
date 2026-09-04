@@ -12,10 +12,14 @@ import SuperAdminIpdModule from './SuperAdminIpdModule';
 import SuperAdminOpdModule from './SuperAdminOpdModule';
 import EmergencyModule from '../emergency/EmergencyModule';
 import LabOperationsModule from '../lab/LabOperationsModule';
+import RadiologyAdminModule from '../imaging/RadiologyAdminModule';
+import SuperAdminImagingMaster from '../imaging/SuperAdminImagingMaster';
+import OtAdminModule from '../ot/OtAdminModule';
+import SuperAdminOtMaster from '../ot/SuperAdminOtMaster';
 import { 
   ShieldCheck, Shield, Users, UserPlus, 
   Calendar, Bed, Activity, Ambulance, 
-  Database, Zap, Key, Layers, BookOpen, FlaskConical 
+  Database, Zap, Key, Layers, BookOpen, FlaskConical, Camera, HeartPulse
 } from 'lucide-react';
 
 export default function AdminSuperAdminModule({ isSuperAdmin = false, onShowToast }) {
@@ -23,6 +27,8 @@ export default function AdminSuperAdminModule({ isSuperAdmin = false, onShowToas
 
   const navTabs = [
     { id: 'dashboard', label: 'Operations Dashboard', icon: Activity },
+    { id: 'ot-admin', label: 'Operation Theatre (OT)', icon: HeartPulse },
+    { id: 'radiology', label: 'Radiology Operations (RIS)', icon: Camera },
     { id: 'patient-mgmt', label: 'Patient Master & AI Merge', icon: Users },
     { id: 'user-mgmt', label: 'User & Staff Identity', icon: UserPlus },
     { id: 'doctor-staff', label: 'Doctor Rosters & Rooms', icon: Calendar },
@@ -33,6 +39,8 @@ export default function AdminSuperAdminModule({ isSuperAdmin = false, onShowToas
     { id: 'audit-logs', label: 'Audit Trail & Compliance', icon: ShieldCheck },
     // SuperAdmin Exclusive Tabs:
     ...(isSuperAdmin ? [
+      { id: 'ot-master', label: 'OT Master & Rooms Config', icon: HeartPulse, superAdmin: true },
+      { id: 'imaging-master', label: 'Imaging Test Master & PACS', icon: Layers, superAdmin: true },
       { id: 'rbac', label: 'RBAC Permission Matrix', icon: Key, superAdmin: true },
       { id: 'org-config', label: 'System Config & Terminology', icon: BookOpen, superAdmin: true },
       { id: 'integrations', label: 'HL7 / FHIR Integrations', icon: Zap, superAdmin: true },
@@ -72,6 +80,14 @@ export default function AdminSuperAdminModule({ isSuperAdmin = false, onShowToas
         <AdminDashboardView onNavigate={setActiveAdminTab} onShowToast={onShowToast} />
       )}
 
+      {activeAdminTab === 'ot-admin' && (
+        <OtAdminModule onShowToast={onShowToast} />
+      )}
+
+      {activeAdminTab === 'radiology' && (
+        <RadiologyAdminModule onShowToast={onShowToast} />
+      )}
+
       {activeAdminTab === 'patient-mgmt' && (
         <AdminPatientManagementView onShowToast={onShowToast} />
       )}
@@ -105,6 +121,14 @@ export default function AdminSuperAdminModule({ isSuperAdmin = false, onShowToas
       )}
 
       {/* SuperAdmin Views */}
+      {activeAdminTab === 'ot-master' && (
+        <SuperAdminOtMaster onShowToast={onShowToast} />
+      )}
+
+      {activeAdminTab === 'imaging-master' && (
+        <SuperAdminImagingMaster onShowToast={onShowToast} />
+      )}
+
       {activeAdminTab === 'rbac' && (
         <SuperAdminRbacView onShowToast={onShowToast} />
       )}

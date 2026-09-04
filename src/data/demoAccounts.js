@@ -151,5 +151,133 @@ export const demoAccounts = [
       { label: 'Results Awaiting Sign-off',value: '4 Reports',   subtext: 'Pathologist validation',      change: 'Ready to issue' },
       { label: 'Critical Panic Alerts',    value: '2 Active',    subtext: 'Doctor notification sent',    change: 'Unacknowledged' }
     ]
+  },
+
+  // ─── 7. RADIOLOGY TECHNICIAN ──────────────────────────────────────────────
+  {
+    id: 'technician',
+    role: 'Senior Radiology & CT/MRI Technologist, RT(R)(CT)(MR)',
+    name: 'Alex Rivera, RT(R)',
+    email: 'technician@medicare.health',
+    pass: 'TechRad#2026',
+    badge: '📷 Technician',
+    icon: 'Camera',
+    department: 'Diagnostic Imaging & Radiology (RIS/PACS)',
+    color: '#0284c7',
+    bgColor: '#e0f2fe',
+    avatar: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&q=80&w=300',
+    stats: [
+      { label: "Today's Assigned Studies", value: '8 Exams', subtext: '2 STAT CT, 1 MRI', change: 'On schedule' },
+      { label: 'Pending Scans',            value: '3 Patients', subtext: 'CT Suite A & DR 1', change: 'Immediate' },
+      { label: 'Completed Scans Today',    value: '5 Acquired', subtext: 'DICOM sent to PACS', change: 'Verified' },
+      { label: 'Contrast Safety Checks',   value: '100% Passed', subtext: 'eGFR > 60 verified', change: 'Safe' }
+    ]
+  },
+
+  // ─── 8. CONSULTANT RADIOLOGIST ───────────────────────────────────────────
+  {
+    id: 'radiologist',
+    role: 'Consultant Neuroradiologist & PACS Signatory',
+    name: 'Dr. Alan Graves, MD',
+    email: 'radiologist@medicare.health',
+    pass: 'RadDoc#2026',
+    badge: '🧠 Radiologist',
+    icon: 'Activity',
+    department: 'Radiology & Molecular Imaging (PACS/RIS)',
+    color: '#7c3aed',
+    bgColor: '#f3e8ff',
+    avatar: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=300',
+    stats: [
+      { label: 'Reporting Queue',        value: '6 Unread', subtext: '1 STAT SAH Alert', change: 'Priority STAT' },
+      { label: 'Pending Sign-Off',        value: '2 Drafts', subtext: 'L-Spine MRI & Chest CT', change: 'Action needed' },
+      { label: 'Signed Reports Today',    value: '14 Reports', subtext: 'Released to EMR/Portal', change: '100% Verified' },
+      { label: 'Critical Finding Alerts', value: '1 Active', subtext: 'Dr. Mitchell notified', change: 'Ack Pending' }
+    ]
+  },
+
+  // ─── 9. CONSULTANT ANAESTHESIOLOGIST ─────────────────────────────────────
+  {
+    id: 'anaesthetist',
+    role: 'Consultant Anaesthesiologist & Perioperative Care Specialist',
+    name: 'Dr. Robert Chen, MD, FACA',
+    email: 'anaesthetist@medicare.health',
+    pass: 'AnaesDoc#2026',
+    badge: '💉 Anaesthetist',
+    icon: 'Activity',
+    department: 'Anaesthesiology & Perioperative Medicine',
+    color: '#059669',
+    bgColor: '#d1fae5',
+    avatar: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&q=80&w=300',
+    stats: [
+      { label: "Today's Active Cases",   value: '3 Surgeries', subtext: '1 GA-ETT, 1 CSE, 1 MAC', change: 'Active' },
+      { label: 'Pre-Anaesthesia (PAC)',   value: '2 Cleared',   subtext: 'ASA-2 & ASA-3',         change: 'Cleared' },
+      { label: 'PACU Recovery Queue',     value: '1 Patient',   subtext: 'Aldrete Score 9/10',     change: 'Stable' },
+      { label: 'Controlled Anaesthetics', value: '100% Audited', subtext: 'Propofol & Fentanyl Logged', change: 'Verified' }
+    ]
+  },
+
+  // ─── 10. SENIOR OT NURSE & SCRUB SPECIALIST ──────────────────────────────
+  {
+    id: 'nurse',
+    role: 'Senior OT Scrub & Surgical Safety Specialist',
+    name: 'Sister Sarah Connor, RN, BSN',
+    email: 'nurse.ot@medicare.health',
+    pass: 'NurseOT#2026',
+    badge: '🩺 OT Nurse',
+    icon: 'HeartPulse',
+    department: 'Operation Theatre & Perioperative Nursing',
+    color: '#e11d48',
+    bgColor: '#ffe4e6',
+    avatar: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=300',
+    stats: [
+      { label: 'Active OT Suite',         value: 'OT Suite A', subtext: 'Cardiothoracic Surgery', change: 'In Progress' },
+      { label: 'WHO Safety Checklists',   value: '100% Passed', subtext: 'Briefing, Timeout & Sign-out', change: 'Verified' },
+      { label: 'Instrument Counts',       value: '3/3 Matched', subtext: 'Zero count discrepancies', change: '100% Match' },
+      { label: 'Specimen Dispatches',     value: '2 Sent to Lab', subtext: 'Histology & Frozen Section', change: 'Dispatched' }
+    ]
+  }
+];
+
+// ─── RESTRICTED 4-PORTAL ACCESS LIST ─────────────────────────────────────────
+// Only Admin / SuperAdmin, Patient, Doctor, and Pharmacist portals are permitted
+export const portalAccounts = demoAccounts.filter(a => 
+  ['admin', 'superadmin', 'patient', 'doctor', 'pharmacist'].includes(a.id)
+);
+
+export const portalCategories = [
+  {
+    id: 'admin_group',
+    name: 'Admin / SuperAdmin',
+    badge: '🛡️ Admin / SuperAdmin',
+    description: 'Operations & Enterprise IT Governance',
+    color: '#4f46e5',
+    subRoles: [
+      { id: 'admin', label: 'Operations Admin', accountId: 'admin' },
+      { id: 'superadmin', label: 'IT SuperAdmin', accountId: 'superadmin' }
+    ]
+  },
+  {
+    id: 'doctor',
+    name: 'Doctor Portal',
+    badge: '🩺 Doctor',
+    description: 'Chief Physician & Clinical Queues',
+    color: '#0284c7',
+    accountId: 'doctor'
+  },
+  {
+    id: 'patient',
+    name: 'Patient Portal',
+    badge: '👤 Patient',
+    description: 'Patient Health Chart & Appointments',
+    color: '#0891b2',
+    accountId: 'patient'
+  },
+  {
+    id: 'pharmacist',
+    name: 'Pharmacist Portal',
+    badge: '💊 Pharmacist',
+    description: 'Medication Dispense & Inventory',
+    color: '#16a34a',
+    accountId: 'pharmacist'
   }
 ];

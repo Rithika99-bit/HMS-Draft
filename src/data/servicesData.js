@@ -1,5 +1,5 @@
 /**
- * MediCare Hospital Management System - 10 Enterprise Hospital Modules
+ * MediCare Hospital Management System - 6 Core Enterprise Healthcare Modules
  */
 
 export const servicesData = [
@@ -7,120 +7,78 @@ export const servicesData = [
     id: 'patient-management',
     number: '01',
     title: 'Patient Management',
-    subtitle: 'Admission, Bed Tracking & Demographics',
+    subtitle: 'Admission & Bed Allocation',
     icon: 'Users',
-    description: 'Streamlined digital admission, discharge, transfer (ADT) workflows, RFID patient wristband tracking, and unified electronic registration.',
-    features: ['Instant Digital Onboarding', 'Smart Bed Allocation Matrix', 'Emergency Triage Tagging', 'Family Consent Management'],
+    description: 'Digital admissions, smart bed matrix tracking, and instant patient registration.',
+    features: ['Instant Digital Onboarding', 'Smart Bed Matrix', 'Emergency Triage Tagging'],
     badge: 'Core Clinical',
-    stat: '140k+ Patients Handled',
-    color: '#0284c7'
+    stat: '140k+ Patients',
+    color: '#0284c7',
+    colorRgb: '2, 132, 199'
   },
   {
     id: 'doctor-management',
     number: '02',
-    title: 'Doctor Management',
-    subtitle: 'Duty Rostering, Licensing & Queues',
+    title: 'Doctor & Clinical Operations',
+    subtitle: 'Duty Rostering & OPD Queues',
     icon: 'Stethoscope',
-    description: 'Automated on-call rotation schedules, surgical theater duty rosters, medical licensing credentialing, and live outpatient consultation queues.',
-    features: ['Dynamic Shift & Call Rosters', 'Surgeon OT Scheduling', 'Credential & CME Tracking', 'Teleconsultation Queues'],
-    badge: 'Staff Operations',
+    description: 'Duty shift rosters, surgical OT schedules, and live outpatient queues.',
+    features: ['Dynamic Shift Rosters', 'Surgeon OT Scheduling', 'Teleconsultation Queues'],
+    badge: 'Clinical Staff',
     stat: '120+ Active Doctors',
-    color: '#0d9488'
-  },
-  {
-    id: 'appointment-scheduling',
-    number: '03',
-    title: 'Appointment Scheduling',
-    subtitle: 'Multi-Channel Online & In-Clinic Booking',
-    icon: 'CalendarClock',
-    description: 'Intelligent appointment scheduling with automated SMS/email reminders, calendar synchronization, and instant doctor availability checks.',
-    features: ['Self-Service Web Portal', 'Automated SMS & WhatsApp Alerts', 'Walk-in Token Dispenser', 'Conflict-Free Slot Allocation'],
-    badge: 'Patient Experience',
-    stat: '450+ Daily Slots',
-    color: '#3b82f6'
+    color: '#0d9488',
+    colorRgb: '13, 148, 136'
   },
   {
     id: 'emr-system',
-    number: '04',
-    title: 'Electronic Medical Records (EMR)',
-    subtitle: 'HIPAA & HL7 Encrypted Health Charts',
+    number: '03',
+    title: 'Electronic Health Records',
+    subtitle: 'HIPAA & HL7 Encrypted Charts',
     icon: 'FileHeart',
-    description: 'Unified longitudinal health record encompassing clinical notes, diagnostic imaging, lab results, allergy warnings, and digital e-prescriptions.',
-    features: ['FHIR & HL7 Compliant Data', 'Voice-to-Text Clinical Dictation', 'Drug-Drug Interaction Warnings', 'Role-Based Access Control'],
+    description: 'Longitudinal charts, diagnostic imaging history, and digital e-prescriptions.',
+    features: ['FHIR & HL7 Compliant', 'Clinical Dictation', 'Drug Interaction Alerts'],
     badge: 'Data Security',
     stat: '256-Bit Encrypted',
-    color: '#8b5cf6'
+    color: '#8b5cf6',
+    colorRgb: '139, 92, 246'
   },
   {
     id: 'pharmacy-management',
-    number: '05',
+    number: '04',
     title: 'Pharmacy Management',
-    subtitle: 'Automated Dispensation & Batch Expiry',
+    subtitle: 'Barcode Dispense & Live Stock',
     icon: 'Pill',
-    description: 'Direct EMR e-prescription integration, barcode medication scanning, batch-wise expiry alerts, and automated re-ordering thresholds.',
-    features: ['Barcode Dispensing Verification', 'Real-time Stock Depletion', 'Expiry & Recall Tracking', 'Controlled Substance Logs'],
+    description: 'Direct EMR prescription sync, barcode verification, and automatic stock reorders.',
+    features: ['Barcode Dispensing', 'Real-time Stock Depletion', 'Automated Reorder Alerts'],
     badge: 'Pharmacy 4.0',
-    stat: '99.9% Stock Accuracy',
-    color: '#ec4899'
+    stat: '99.9% Accuracy',
+    color: '#ec4899',
+    colorRgb: '236, 72, 153'
   },
   {
     id: 'laboratory-management',
-    number: '06',
-    title: 'Laboratory Management (LIS)',
-    subtitle: 'Specimen Barcoding & Auto-Analyzers',
+    number: '05',
+    title: 'Diagnostic Laboratory',
+    subtitle: 'Specimen Barcoding & Analyzers',
     icon: 'FlaskConical',
-    description: 'Automated sample accessioning, bi-directional analyzer interfacing, critical value auto-notifications, and instant patient portal result delivery.',
-    features: ['Bi-directional Analyzer Sync', 'Color-Coded Specimen Tracking', 'Critical Panic Result Alerts', 'PDF Report Auto-Generation'],
+    description: 'Bi-directional analyzer sync, panic value alerts, and instant online reporting.',
+    features: ['Analyzer Sync', 'Critical Panic Alerts', 'Instant Report Sync'],
     badge: 'Diagnostics',
     stat: '12-Min Turnaround',
-    color: '#f59e0b'
+    color: '#f59e0b',
+    colorRgb: '245, 158, 11'
   },
   {
     id: 'billing-payments',
-    number: '07',
-    title: 'Billing & Payments',
-    subtitle: 'Insurance TPA & Cashless Claims',
+    number: '06',
+    title: 'Billing & Insurance',
+    subtitle: 'TPA Cashless Claims & Invoicing',
     icon: 'CreditCard',
-    description: 'Comprehensive financial engine managing itemized billing, multi-insurer cashless approvals, online payment gateways, and transparent invoice breakdowns.',
-    features: ['Real-time Insurance Eligibility', 'Itemized Service Breakdown', 'Split-Payment Gateway Support', 'Automated Dispute Audits'],
+    description: 'Itemized billing, cashless insurance pre-authorizations, and fast online checkout.',
+    features: ['Instant Insurance Check', 'Itemized Breakdown', 'Cashless TPA Integration'],
     badge: 'Revenue Cycle',
-    stat: '$4.2M Claims Processed',
-    color: '#10b981'
-  },
-  {
-    id: 'staff-management',
-    number: '08',
-    title: 'Staff Management',
-    subtitle: 'Biometric Attendance & Task Delegation',
-    icon: 'UserCheck',
-    description: 'End-to-end nursing and administrative personnel oversight, shift swap requests, biometric attendance synchronization, and ward assignment delegation.',
-    features: ['Biometric & Geo-fenced Check-in', 'Nurse-to-Patient Ratio Monitor', 'Clinical Performance Metrics', 'Overtime & Payroll Sync'],
-    badge: 'Human Resources',
-    stat: '450+ Hospital Staff',
-    color: '#06b6d4'
-  },
-  {
-    id: 'inventory-management',
-    number: '09',
-    title: 'Inventory & Supplies',
-    subtitle: 'Surgical Supplies & Equipment Maintenance',
-    icon: 'Boxes',
-    description: 'Hospital-wide supply chain management tracking surgical consumables, PPE reserves, oxygen tank levels, and biomedical equipment preventive maintenance.',
-    features: ['Automated PO Generation', 'Medical Device Calibration Log', 'Oxygen & Gas Cylinder Telemetry', 'Sterilization Tracking'],
-    badge: 'Supply Chain',
-    stat: '99.8% Uptime',
-    color: '#6366f1'
-  },
-  {
-    id: 'reports-analytics',
-    number: '10',
-    title: 'Reports & Analytics',
-    subtitle: 'Executive KPIs, Bed Turnover & Audits',
-    icon: 'BarChart3',
-    description: 'Executive dashboards delivering real-time clinical KPIs, bed occupancy heatmaps, average length of stay (ALOS) analytics, and regulatory compliance reports.',
-    features: ['Executive Real-time Dashboard', 'ALOS & Readmission Heatmaps', 'Infection Control Surveillance', 'One-Click Compliance Export'],
-    badge: 'Executive Suite',
-    stat: '50+ KPI Dashboards',
-    color: '#14b8a6'
+    stat: '$4.2M Processed',
+    color: '#10b981',
+    colorRgb: '16, 185, 129'
   }
 ];

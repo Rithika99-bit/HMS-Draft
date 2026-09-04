@@ -1,9 +1,9 @@
 import React from 'react';
 import { useEmr } from '../../context/EmrContext';
-import { 
-  Heart, Calendar, Pill, Activity, ShieldCheck, 
-  FileText, Clock, AlertTriangle, CheckCircle, 
-  Video, ArrowRight, Phone, Download, ExternalLink, Sparkles 
+import {
+  Heart, Calendar, Pill, Activity, ShieldCheck,
+  FileText, Clock, AlertTriangle, CheckCircle,
+  Video, ArrowRight, Phone, Download, ExternalLink, Sparkles
 } from 'lucide-react';
 
 export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
@@ -20,7 +20,7 @@ export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      
+
       {/* Patient Welcome Hero Card */}
       <div className="dash-header-banner" style={{ background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', borderRadius: '14px', padding: '24px 28px' }}>
         <div>
@@ -39,7 +39,7 @@ export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
         </div>
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button 
+          <button
             className="btn btn-primary btn-sm"
             onClick={() => onNavigateTab('appointments')}
             style={{ background: '#ffffff', color: '#0284c7', border: 'none', fontWeight: 700 }}
@@ -80,10 +80,10 @@ export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
 
       {/* Main Grid: Upcoming Appointment & Medication Pill Schedule */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1.7fr', gap: '20px' }}>
-        
+
         {/* Left Column: Next Appointment & Alerts */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          
+
           {/* Upcoming Visit Card */}
           <div className="dash-card" style={{ border: '2px solid #bae6fd', background: '#f0f9ff' }}>
             <div className="dash-card-header">
@@ -112,14 +112,14 @@ export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
             </div>
 
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button 
+              <button
                 className="btn btn-primary btn-sm"
                 style={{ flex: 1 }}
                 onClick={() => { if (onShowToast) onShowToast('Checked in for appointment. Token #14 issued.', 'success'); }}
               >
                 Self Check-In
               </button>
-              <button 
+              <button
                 className="btn btn-outline btn-sm"
                 onClick={() => onNavigateTab('appointments')}
               >
@@ -162,7 +162,7 @@ export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
 
         {/* Right Column: Daily Medication Schedule & Recent Results */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          
+
           {/* Daily Pill Schedule & 1-Click Tracker */}
           <div className="dash-card">
             <div className="dash-card-header">
@@ -191,14 +191,14 @@ export default function PatientDashboardView({ onNavigateTab, onShowToast }) {
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <button 
+                    <button
                       className="btn btn-secondary btn-sm"
                       style={{ background: '#16a34a', color: '#ffffff', border: 'none', fontSize: '0.78rem' }}
                       onClick={() => handleTakeMed(med.drugName)}
                     >
                       <CheckCircle size={14} style={{ display: 'inline', marginRight: 4 }} /> Take Now
                     </button>
-                    <button 
+                    <button
                       className="btn btn-outline btn-sm"
                       style={{ fontSize: '0.78rem' }}
                       onClick={() => handleRefill(med.id, med.drugName)}

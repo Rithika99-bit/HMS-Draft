@@ -29,9 +29,9 @@ export default function DepartmentsSection({ onOpenBooking }) {
       <div className="container">
         <div className="section-header">
           <span className="section-tag teal">Centers of Medical Excellence</span>
-          <h2 className="section-title">World-Class Specialized Departments</h2>
+          <h2 className="section-title">Specialized Clinical Departments</h2>
           <p className="section-subtitle">
-            Our multi-specialty clinical units are staffed by board-certified physicians and equipped with cutting-edge surgical, robotic, and diagnostic technologies.
+            Advanced clinical units equipped with precision surgical, robotic, and diagnostic technologies.
           </p>
         </div>
 
